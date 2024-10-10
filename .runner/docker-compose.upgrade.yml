@@ -5,14 +5,25 @@ services:
     build: ../.docker
     volumes:
       - ../:/opt/odoo
-      - /var/lib/odoo:/var/lib/odoo
-      - /var/log/odoo:/var/log/odoo
+      - odoo_filestore_data:/var/log/odoo
     command: bash -c "$${PYTHON_PATH} $${START_ODOO} $${ODOO_PARAM}"
     entrypoint: []
     environment:
       PYTHON_PATH: "/opt/odoo/.runner/run_upgrade.sh"
       START_ODOO: ""
       ODOO_PARAM: ""
-    restart: unless-stopped
     network_mode: host
+    restart: unless-stopped
+    tty: true
+
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-13}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: odoo
+    network_mode: host
+    restart: unless-stopped
     tty: true
