@@ -29,6 +29,7 @@ RUN apt-get update && \
         libpq-dev \
         node-less \
         npm \
+        pipx \
 		python3-venv \
 		python3-wheel \
         python3-magic \
@@ -61,7 +62,7 @@ RUN apt-get update && \
     "arm64")  WKHTMLTOPDF_SHA=90f6e69896d51ef77339d3f3a20f8582bdf496cc  ;; \
     "ppc64le" | "ppc64el") WKHTMLTOPDF_ARCH=ppc64el && WKHTMLTOPDF_SHA=5312d7d34a25b321282929df82e3574319aed25c  ;; \
     esac \
-    && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.noble_${WKHTMLTOPDF_ARCH}.deb \
+    && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_${WKHTMLTOPDF_ARCH}.deb \
     && echo ${WKHTMLTOPDF_SHA} wkhtmltox.deb | sha1sum -c - \
     && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
     && rm -rf /var/lib/apt/lists/* wkhtmltox.deb;
@@ -78,9 +79,9 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ noble-pgdg main' > /etc/a
     && apt-get install --no-install-recommends -y postgresql-client \
     && rm -f /etc/apt/sources.list.d/pgdg.list \
     && rm -rf /var/lib/apt/lists/*
-RUN pip3 install --no-cache-dir -r /etc/requirements.txt \
-    && pip3 install --no-cache-dir -r /etc/python3-requirements.txt \
-    && pip3 install psycopg2-binary
+RUN pipx install --no-cache-dir -r /etc/requirements.txt \
+    && pipx install --no-cache-dir -r /etc/python3-requirements.txt \
+    && pipx install psycopg2-binary
     # Clean app cache
 RUN apt-get autoremove -y \
     && apt-get clean \
