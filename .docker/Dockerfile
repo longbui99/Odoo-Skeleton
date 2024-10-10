@@ -90,7 +90,7 @@ RUN apt-get autoremove -y \
     && rm -rf var/lib/apt/lists \
     # Create Odoo folder
     && mkdir -p /var/lib/odoo /opt/odoo /etc/odoo \
-    && useradd -mUu 1000 -s /bin/bash odoo \
+    && useradd -mUu 1999 -s /bin/bash odoo \
     && chown -R odoo:odoo /var/lib/odoo /opt/odoo /etc/odoo
 
 # Install rtlcss (on Debian buster)
