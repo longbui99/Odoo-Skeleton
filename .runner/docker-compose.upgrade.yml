@@ -1,0 +1,18 @@
+name: "odoo18"
+services:
+  odoo:
+    image: builong99/odoo:18
+    build: ../.docker
+    volumes:
+      - ../:/opt/odoo
+      - /var/lib/odoo:/var/lib/odoo
+      - /var/log/odoo:/var/log/odoo
+    command: bash -c "$${PYTHON_PATH} $${START_ODOO} $${ODOO_PARAM}"
+    entrypoint: []
+    environment:
+      PYTHON_PATH: "/opt/odoo/.runner/run_upgrade.sh"
+      START_ODOO: ""
+      ODOO_PARAM: ""
+    restart: unless-stopped
+    network_mode: host
+    tty: true
