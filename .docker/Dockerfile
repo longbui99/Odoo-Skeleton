@@ -79,9 +79,11 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ noble-pgdg main' > /etc/a
     && apt-get install --no-install-recommends -y postgresql-client \
     && rm -f /etc/apt/sources.list.d/pgdg.list \
     && rm -rf /var/lib/apt/lists/*
-RUN pipx install --no-cache-dir -r /etc/requirements.txt \
-    && pipx install --no-cache-dir -r /etc/python3-requirements.txt \
-    && pipx install psycopg2-binary
+RUN python3 -m venv /etc/python3-venv \
+    && source /etc/python3-venv/bin/activate \
+    && pip3 install --no-cache-dir -r /etc/requirements.txt \
+    && pip3 install --no-cache-dir -r /etc/python3-requirements.txt \
+    && pip3 install psycopg2-binary
     # Clean app cache
 RUN apt-get autoremove -y \
     && apt-get clean \
